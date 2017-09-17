@@ -1,4 +1,4 @@
-package com.identity.controller;
+package com.identity.manager.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,4 +10,5 @@ public class MainController {
 	public String login() {
 		return "index";
 	}
+
 }
