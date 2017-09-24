@@ -1,4 +1,4 @@
-package com.identity.manager.controller;
+package com.identity.manager.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
