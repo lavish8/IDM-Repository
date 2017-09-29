@@ -9,6 +9,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AccessmanagerApplicationTests {
 
+/** The application logger */
+	private static final Logger LOG = LoggerFactory.getLogger(AccessmanagerApplicationTests.class);
+
 	@Test
 	public void contextLoads() {
 	}
