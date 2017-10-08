@@ -23,9 +23,21 @@ public class MainController {
 	private EmailService emailService;
 
 	@RequestMapping("/")
-	public String login() {
+	public String index() {
 		LOG.debug("################# loading index page #############");
-		return "index";
+		return ModelViewEnum.INDEX_VIEW_NAME.getId();
+	}
+	
+	@RequestMapping("/login")
+	public String login() {
+		LOG.debug("################# loading login page #############");
+		return ModelViewEnum.LOGIN_VIEW_NAME.getId();
+	}
+	
+	@RequestMapping("/logout")
+	public String logout() {
+		LOG.debug("################# loading logout page #############");
+		return ModelViewEnum.LOGOUT_VIEW_NAME.getId();
 	}
 
 	@RequestMapping("/about")
