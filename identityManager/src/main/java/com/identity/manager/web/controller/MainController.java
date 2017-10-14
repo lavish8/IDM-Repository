@@ -34,10 +34,16 @@ public class MainController {
 		return ModelViewEnum.LOGIN_VIEW_NAME.getId();
 	}
 	
-	@RequestMapping("/logout")
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logout() {
 		LOG.debug("################# loading logout page #############");
 		return ModelViewEnum.LOGOUT_VIEW_NAME.getId();
+	}
+	
+	@RequestMapping("/payload")
+	public String payload() {
+		LOG.debug("################# loading payload page #############");
+		return ModelViewEnum.PAYLOAD_VIEW_NAME.getId();
 	}
 
 	@RequestMapping("/about")
