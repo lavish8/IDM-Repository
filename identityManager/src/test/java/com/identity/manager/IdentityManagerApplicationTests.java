@@ -20,7 +20,7 @@ public class IdentityManagerApplicationTests {
 	
 	@Autowired
 	private I18NService i18NService;
-
+	
 	@Test
 	public void contextLoads() {
 		
@@ -32,6 +32,7 @@ public class IdentityManagerApplicationTests {
 		String messageId = "index.main.header.h1";
 		String actual = i18NService.getMessage(messageId);
 		LOG.info("--------------"+actual+"------------");
+		
 		Assert.assertEquals("The actual and expected Strings don't match", expectedResult, actual);
 	}
 

@@ -9,9 +9,9 @@ import com.identity.manager.service.EmailService;
 import com.identity.manager.service.impl.MockEmailServiceImpl;
 
 @Configuration
-@Profile("dev")
-@PropertySource("file:///${user.home}/identityManager/application-dev.properties")
-public class DevelopmentConfig {
+@Profile("test")
+@PropertySource("file:///${user.home}/identityManager/application-test.properties")
+public class TestingConfig {
 
 	@Bean
 	public EmailService emailService(){
