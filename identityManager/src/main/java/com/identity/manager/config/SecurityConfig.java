@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         List<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-        if (activeProfiles.contains("dev")) {
+        if (!activeProfiles.contains("prod")) {
             http.csrf().disable();
             http.headers().frameOptions().disable();
         }
