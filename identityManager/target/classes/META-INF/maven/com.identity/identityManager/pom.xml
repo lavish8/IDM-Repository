@@ -25,6 +25,8 @@
 		<bootstrap.version>3.3.6</bootstrap.version>
 		<jquery.version>2.1.4</jquery.version>
 		<thymeleaf.springsecurity>2.1.2.RELEASE</thymeleaf.springsecurity>
+
+		<bootstrap.version>3.3.6</bootstrap.version>
 		<mysql.driver.version>5.1.32</mysql.driver.version>
 		<joda-time>2.3</joda-time>
 		<apache.poi>3.15</apache.poi>
