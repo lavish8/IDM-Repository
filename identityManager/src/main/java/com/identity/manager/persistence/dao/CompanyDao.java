@@ -8,4 +8,5 @@ import com.identity.manager.persistence.domain.Company;
 @Repository
 public interface CompanyDao extends CrudRepository<Company, Long> {
 
+	Company findByName(String name);
 }

@@ -21,10 +21,10 @@ public class UserUtil {
 		user.setUniqueIdentifierValue(username);
 		user.setUniqueIdentifierKey("UID");
 		user.setObsoleteDate(LocalDate.now());
-		user.setFirstName(email.split("\\.",3)[0]);
-		user.setLastName(email.split("\\.",3)[1].split("@")[0]);
+		user.setFirstName(email.split("@")[0].split("\\.")[0]);
+		user.setLastName(email.split("@")[0].split("\\.").length > 1 ? email.split("@")[0].split("\\.")[1] : null);
 		user.setPhoneNumber(1234567890);
-		user.setCountry(email.split("\\.",3)[2]);
+		user.setCountry(email.split("@")[1].split("\\.")[1]);
 		user.setDepartment("ICT");
 		user.setPassword("useme123");
 		return user;

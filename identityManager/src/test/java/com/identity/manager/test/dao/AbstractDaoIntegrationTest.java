@@ -1,9 +1,7 @@
 package com.identity.manager.test.dao;
 
-import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,7 +70,7 @@ public abstract class AbstractDaoIntegrationTest {
 	protected User createUser(String username, String email) {
 		User user = UserUtil.createUser(username, email);
 		user.setUserRepository(userRepositoryDao.findByName(DomainObjectEnum.USER_LOCAL_REPOSITORY.getValue()));
-		user.setCompany(createCompany("Nucleus Software", "NSE"));
+		user.setCompany(createCompany(UserDaoIntegrationTest.company, UserDaoIntegrationTest.companyCode));
 		user.setCreatedBy(userDao.findByLogin("VIVEKC"));
 		user.setLastModifiedBy(userDao.findByLogin("VIVEKC"));
 		user.setStatus(statusDao.findByName(DomainObjectEnum.STATUS_ACTIVE.getValue()));
