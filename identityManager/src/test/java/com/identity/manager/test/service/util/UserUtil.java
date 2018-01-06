@@ -1,8 +1,8 @@
-package com.identity.manager.test.util;
+package com.identity.manager.test.service.util;
 
 import java.time.LocalDate;
 
-import com.identity.manager.persistence.domain.User;
+import com.identity.manager.web.domain.UserPojo;
 
 public class UserUtil {
 
@@ -13,13 +13,12 @@ public class UserUtil {
 		throw new AssertionError("Non instantiable");
 	}
 
-	public static User createUser(String username, String email) {
-		User user = new User();
+	public static UserPojo createUser(String username, String email, String compnay) {
+		UserPojo user = new UserPojo();
 		user.setLogin(username);
 		user.setPassword("fe5c3358bc09de0f6717b92dc82e5d98");
 		user.setEmail(email);
-		user.setUniqueIdentifierValue(username);
-		user.setUniqueIdentifierKey("UID");
+		user.setCompany(compnay);
 		user.setObsoleteDate(LocalDate.now());
 		user.setFirstName(email.split("@")[0].split("\\.")[0]);
 		user.setLastName(email.split("@")[0].split("\\.").length > 1 ? email.split("@")[0].split("\\.")[1] : null);

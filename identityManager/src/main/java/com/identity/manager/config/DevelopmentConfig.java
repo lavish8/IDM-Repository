@@ -1,5 +1,7 @@
 package com.identity.manager.config;
 
+import org.h2.server.web.WebServlet;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -14,8 +16,14 @@ import com.identity.manager.service.impl.MockEmailServiceImpl;
 public class DevelopmentConfig {
 
 	@Bean
-	public EmailService emailService(){
-		return new MockEmailServiceImpl();		
+	public EmailService emailService() {
+		return new MockEmailServiceImpl();
+	}
+
+	@Bean
+	public ServletRegistrationBean h2ConsoleServletRegistration() {
+		ServletRegistrationBean bean = new ServletRegistrationBean(new WebServlet());
+		bean.addUrlMappings("/console/*");
+		return bean;
 	}
 }
-

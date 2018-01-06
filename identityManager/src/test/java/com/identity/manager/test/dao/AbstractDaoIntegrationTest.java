@@ -20,8 +20,8 @@ import com.identity.manager.persistence.domain.Company;
 import com.identity.manager.persistence.domain.Role;
 import com.identity.manager.persistence.domain.User;
 import com.identity.manager.persistence.domain.UserRole;
-import com.identity.manager.test.util.CompanyUtil;
-import com.identity.manager.test.util.UserUtil;
+import com.identity.manager.test.dao.util.CompanyUtil;
+import com.identity.manager.test.dao.util.UserUtil;
 
 public abstract class AbstractDaoIntegrationTest {
 
@@ -67,10 +67,10 @@ public abstract class AbstractDaoIntegrationTest {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
-	protected User createUser(String username, String email) {
+	protected User createUser(String username, String email, String company) {
 		User user = UserUtil.createUser(username, email);
 		user.setUserRepository(userRepositoryDao.findByName(DomainObjectEnum.USER_LOCAL_REPOSITORY.getValue()));
-		user.setCompany(createCompany(UserDaoIntegrationTest.company, UserDaoIntegrationTest.companyCode));
+		user.setCompany(companyDao.findByCode(company));
 		user.setCreatedBy(userDao.findByLogin("VIVEKC"));
 		user.setLastModifiedBy(userDao.findByLogin("VIVEKC"));
 		user.setStatus(statusDao.findByName(DomainObjectEnum.STATUS_ACTIVE.getValue()));

@@ -1,4 +1,4 @@
-package com.identity.manager.test.util;
+package com.identity.manager.test.dao.util;
 
 import java.time.Clock;
 import java.time.LocalDate;

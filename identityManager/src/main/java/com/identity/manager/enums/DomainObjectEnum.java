@@ -11,13 +11,16 @@ public enum DomainObjectEnum {
 	USET_ACTIVE_DIRECTORY("3", "ACTIVE DIRECTORY (EXTRANET)", "standard user base for extranet"),
 	ENTITY_TYPE_COMPANY("2", "COMPANY", "COMPANY"),
 	ENTITY_TYPE_ROLE("10", "ROLE", "ROLE"),
-	STATUS_ACTIVE("30", "ACTIVE", "ACTIVE"),
-	ADMIN_ROLE("1", "ADMIN", "full access to manage everything"),
-	MANAGE_USER_ROLE("2", "USER_ROLE", "full access to manage user profile"),
-	MANAGE_COMPANY_ROLE("3", "COMPANY_ROLE", "full access to manage company related infomation");
+	STATUS_ACTIVE("30", "ACTIVE", "ACTIVE");
+	
+	public static final String UNIQUE_IDENTIFIER_KEY = "UID"; 
 	
 	public enum LOCKED {
 		Y, N
+	}
+	
+	public enum COMPANY_TYPE {
+		FINANCE, IT, COMSUMER_GOODS, COMSUMER_SERVICES, HEALTH_CARE
 	}
 	
 	private final String id;
