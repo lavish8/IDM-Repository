@@ -15,8 +15,7 @@ public class DevelopmentConfig {
 
 	@Bean
 	public EmailService emailService(){
-		return new MockEmailServiceImpl();
-		
+		return new MockEmailServiceImpl();		
 	}
 }
 
