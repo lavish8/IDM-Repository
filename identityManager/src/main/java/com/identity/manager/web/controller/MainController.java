@@ -58,12 +58,4 @@ public class MainController {
 		model.addAttribute(ModelViewEnum.FEEDBACK_MODEL, contact);
 		return ModelViewEnum.CONTACT_US_VIEW_NAME.getId();
 	}
-
-	@RequestMapping(value = "/contact", method = RequestMethod.POST)
-	public String contactPost(@ModelAttribute(ModelViewEnum.FEEDBACK_MODEL) ContactPojo contact) {
-		LOG.debug("################# content of contact page {} #############", contact);
-		emailService.sendFeedbackEmail(contact);
-		return ModelViewEnum.CONTACT_US_VIEW_NAME.getId();
-	}
-
 }
