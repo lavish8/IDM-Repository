@@ -29,6 +29,7 @@
 		<joda-time>2.3</joda-time>
 		<apache.poi>3.15</apache.poi>
 		<spring.modelmapper>1.1.0</spring.modelmapper>
+		<springfox-swagger>2.6.1</springfox-swagger>
 		<!-- <h2.database>1.4.194</h2.database> -->
 	</properties>
 
@@ -125,6 +126,23 @@
 			<artifactId>modelmapper-spring</artifactId>
 			<version>${spring.modelmapper}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-swagger}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-swagger}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -132,6 +150,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<addResources>true</addResources>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
