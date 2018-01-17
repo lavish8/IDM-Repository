@@ -14,12 +14,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.identity.manager.service.impl.UserSecurityService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	/*@Autowired
-    private UserSecurityService userSecurityService;*/
+	@Autowired
+    private UserSecurityService userSecurityService;
 
     @Autowired
     private Environment env;
@@ -57,8 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.headers().frameOptions().disable();
         }
 
-        http
-                .authorizeRequests()
+        	http.authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -71,10 +72,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-        		.withUser("user")
-        		.password("password")
-        		.roles("USER");
-               /* .userDetailsService(userSecurityService)
-                .passwordEncoder(passwordEncoder());*/
+        	.withUser("user")
+        	.password("password")
+        	.roles("USER");
+        
+       /* auth .userDetailsService(userSecurityService)
+             .passwordEncoder(passwordEncoder());*/
     }
 }

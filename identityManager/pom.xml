@@ -29,7 +29,7 @@
 		<joda-time>2.3</joda-time>
 		<apache.poi>3.15</apache.poi>
 		<spring.modelmapper>1.1.0</spring.modelmapper>
-		<!-- <h2.database>1.4.194</h2.database> -->
+		<h2.database>1.4.194</h2.database>
 	</properties>
 
 	<dependencies>
@@ -113,7 +113,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<!-- <version>${h2.database}</version> -->
+			<version>${h2.database}</version>
 		</dependency>
 
 		<dependency>
