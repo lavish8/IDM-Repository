@@ -30,7 +30,7 @@
 		<apache.poi>3.15</apache.poi>
 		<spring.modelmapper>1.1.0</spring.modelmapper>
 		<springfox-swagger>2.6.1</springfox-swagger>
-		<!-- <h2.database>1.4.194</h2.database> -->
+		<h2.database>1.4.194</h2.database>
 	</properties>
 
 	<dependencies>
@@ -115,10 +115,11 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+    
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<!-- <version>${h2.database}</version> -->
+			<version>${h2.database}</version>
 		</dependency>
 
 		<dependency>
@@ -138,6 +139,7 @@
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${springfox-swagger}</version>
 		</dependency>
+    
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
