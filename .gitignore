@@ -38,3 +38,10 @@ nbdist/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 stripe.properties
+/identityManager/.classpath
+/identityManager/.settings
+/identityManager/bin
+/identityManager/.mvn
+/identityManager/.project
+/identityManager/mvnw
+/identityManager/*.cmd
