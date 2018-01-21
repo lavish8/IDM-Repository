@@ -2,6 +2,9 @@ package com.identity.manager.web.domain;
 
 import java.io.Serializable;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+@Api
 public class ContactPojo implements Serializable {
 
 	private static final long serialVersionUID = 8246009030271518087L;
@@ -10,8 +13,12 @@ public class ContactPojo implements Serializable {
 	}
 
 	private String firstName;
+	
 	private String lastName;
+	
+	@ApiModelProperty(notes = "The email address of sender", required = true)
 	private String email;
+	
 	private String feedback;
 
 	public String getFirstName() {

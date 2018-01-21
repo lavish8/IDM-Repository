@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/contact/**",
             "/error/**/*",
             "/console/**",
+            "/api/**",
             /*ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
             ForgotMyPasswordController.CHANGE_PASSWORD_PATH,
             SignupController.SIGNUP_URL_MAPPING*/

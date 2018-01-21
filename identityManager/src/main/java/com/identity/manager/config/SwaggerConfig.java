@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -26,10 +26,13 @@ public class SwaggerConfig {
 	
 	@Bean
 	public Docket productApi(){
-		Predicate<String> selector;
-		return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false).host(swaggerBaseURL)
-				.protocols(Sets.newHashSet(protocol)).select()
-				.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class)).paths(regex("/product.*"))
+		return new Docket(DocumentationType.SWAGGER_2)
+				.useDefaultResponseMessages(false)
+				.host(swaggerBaseURL)
+				.protocols(Sets.newHashSet(protocol))
+				.select().apis(RequestHandlerSelectors.basePackage("com.identity.manager.web.controller"))
+				.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+				.paths(PathSelectors.any())
 				.build();
 	}
 	
