@@ -254,6 +254,6 @@ public class User extends Auditable implements UserDetails {
 	 */
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return true;
 	}
 }

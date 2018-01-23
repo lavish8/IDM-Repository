@@ -15,10 +15,10 @@ import com.identity.manager.persistence.domain.User;
  * Created by tedonema on 31/03/2016.
  */
 @Service
-public class UserSecurityService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(UserSecurityService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
     private UserDao userRepository;

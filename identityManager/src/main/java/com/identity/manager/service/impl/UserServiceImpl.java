@@ -3,10 +3,18 @@ package com.identity.manager.service.impl;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,5 +175,27 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 			throw new InvalidDataException("User not found for value of login [{}]" + login);
 		}
 		userDao.updateUserPassword(user.getId(), password);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.identity.manager.service.UserService#loggedInUser()
+	 */
+	@Override
+	public String loggedInUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			throw new UsernameNotFoundException("Anonymous user found"); 
+		}
+		return authentication.getName();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.identity.manager.service.UserService#grantedRoles()
+	 */
+	@Override
+	public Set<String> grantedAuthorities() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
+		return AuthorityUtils.authorityListToSet(grantedAuthorities);
 	}
 }
