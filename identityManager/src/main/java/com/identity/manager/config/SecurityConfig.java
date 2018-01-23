@@ -8,20 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.identity.manager.service.impl.UserSecurityService;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-    private UserSecurityService userSecurityService;
+    private UserDetailsService userSecurityService;
 
     @Autowired
     private Environment env;
@@ -50,34 +52,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             ForgotMyPasswordController.CHANGE_PASSWORD_PATH,
             SignupController.SIGNUP_URL_MAPPING*/
     };
+    
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         List<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (!activeProfiles.contains("prod")) {
-            http.csrf().disable();
-            http.headers().frameOptions().disable();
+            http.csrf().disable()
+            	.headers().frameOptions().disable();
         }
-
-        	http.authorizeRequests()
+        	http.anonymous().disable()
+        		.authorizeRequests()        		
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/payload")
-                .failureUrl("/login?error").permitAll()
+                .formLogin().loginPage("/login")
+                			.defaultSuccessUrl("/payload")
+                			.failureUrl("/login?error").permitAll()
                 .and()
                 .logout().permitAll();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+    	 auth.userDetailsService(userSecurityService)
+         		.passwordEncoder(passwordEncoder());
+        /*auth.inMemoryAuthentication()
         	.withUser("user")
         	.password("password")
-        	.roles("USER");
-        
-       /* auth .userDetailsService(userSecurityService)
-             .passwordEncoder(passwordEncoder());*/
+        	.roles("USER");*/       
     }
 }
