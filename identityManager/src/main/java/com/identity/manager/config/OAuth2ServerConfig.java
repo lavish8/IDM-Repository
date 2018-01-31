@@ -1,15 +1,27 @@
 package com.identity.manager.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+=======
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+>>>>>>> 6179f6b32b765fdc9618444fe4885894f0c24467
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+<<<<<<< HEAD
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+=======
+>>>>>>> 6179f6b32b765fdc9618444fe4885894f0c24467
 
 /**
  * The Class OAuth2Config is responsible for generating tokens specific to a client. 
@@ -25,12 +37,15 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	/** The user details service. */
 	@Autowired
 	private UserDetailsService userDetailsService;
+<<<<<<< HEAD
 	
 	@Autowired
     private TokenStore tokenStore;
  
     @Autowired
     private UserApprovalHandler userApprovalHandler;
+=======
+>>>>>>> 6179f6b32b765fdc9618444fe4885894f0c24467
 
 	/** The authentication manager. */
 	@Autowired
@@ -45,8 +60,23 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	private static final String SCOPE_READ = "read";
 	private static final String SCOPE_WRITE = "write";
 	private static final String TRUST = "trust";
+<<<<<<< HEAD
 	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60; //Access token is only valid for 60 minutes.
     private static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60; //Refresh token is only valid for 6 hours.
+=======
+	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
+    private static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
+
+	/**
+	 * Password encoder.
+	 *
+	 * @return the password encoder
+	 */
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+>>>>>>> 6179f6b32b765fdc9618444fe4885894f0c24467
 
 	/*
 	 * (non-Javadoc)
@@ -59,7 +89,10 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer configurer) throws Exception {
+<<<<<<< HEAD
 		configurer.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler);
+=======
+>>>>>>> 6179f6b32b765fdc9618444fe4885894f0c24467
 		configurer.authenticationManager(authenticationManager);
 		configurer.userDetailsService(userDetailsService);
 	}
