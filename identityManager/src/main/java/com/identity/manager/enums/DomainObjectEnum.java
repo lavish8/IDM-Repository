@@ -11,7 +11,8 @@ public enum DomainObjectEnum {
 	USET_ACTIVE_DIRECTORY("3", "ACTIVE DIRECTORY (EXTRANET)", "standard user base for extranet"),
 	ENTITY_TYPE_COMPANY("2", "COMPANY", "COMPANY"),
 	ENTITY_TYPE_ROLE("10", "ROLE", "ROLE"),
-	STATUS_ACTIVE("30", "ACTIVE", "ACTIVE");
+	STATUS_ACTIVE("30", "ACTIVE", "ACTIVE"),
+	STATUS_INACTIVE("60", "INACTIVE", "INACTIVE");
 	
 	public static final String UNIQUE_IDENTIFIER_KEY = "UID"; 
 	
