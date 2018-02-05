@@ -50,6 +50,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/console/**",
             "/api/**",
             "/oauth/token",
+            "/login"
             /*ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
             ForgotMyPasswordController.CHANGE_PASSWORD_PATH,
             SignupController.SIGNUP_URL_MAPPING*/
@@ -85,7 +86,14 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        }
 		http.anonymous().disable()
 		.authorizeRequests()
-		.antMatchers(PUBLIC_MATCHERS).permitAll();
+		.antMatchers(PUBLIC_MATCHERS).permitAll()
+		.anyRequest().authenticated()
+        .and()
+        .formLogin().loginPage("/login")
+        			.defaultSuccessUrl("/payload")
+        			.failureUrl("/login?error").permitAll()
+        .and()
+        .logout().permitAll();
 	}
 
 	@Override

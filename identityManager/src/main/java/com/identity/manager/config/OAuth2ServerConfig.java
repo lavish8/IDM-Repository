@@ -3,22 +3,29 @@ package com.identity.manager.config;
 import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
- * The Class OAuth2Config is responsible for generating tokens specific to a client. 
- * Auth server will be generating tokens for client which will be requesting to authorization server 
- * for authorization code.
+ * The Class OAuth2Config is responsible for generating tokens specific to a
+ * client. Auth server will be generating tokens for client which will be
+ * requesting to authorization server for authorization code.
  * 
  * @author maheshs1
  */
@@ -29,18 +36,22 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	/** The user details service. */
 	@Autowired
 	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private TokenStore tokenStore;
 	
 	@Autowired
-    private TokenStore tokenStore;
- 
-    @Autowired
-    private UserApprovalHandler userApprovalHandler;
+	@Qualifier("customTokenEnhancer")
+	private TokenEnhancer tokenEnhancer;
+
+	@Autowired
+	private UserApprovalHandler userApprovalHandler;
 
 	/** The authentication manager. */
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	private  static final String CLIEN_ID = "devglan-client";
+	private static final String CLIEN_ID = "devglan-client";
 	private static final String CLIENT_SECRET = "devglan-secret";
 	private static final String GRANT_TYPE = "password";
 	private static final String AUTHORIZATION_CODE = "authorization_code";
@@ -49,16 +60,33 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	private static final String SCOPE_READ = "read";
 	private static final String SCOPE_WRITE = "write";
 	private static final String TRUST = "trust";
-	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
-    private static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
+	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
+	private static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
 
-    /** The encryption SALT. */
-    private static final String SALT = "fdalkjalk;3jlwf00sfaof";
+	/** The encryption SALT. */
+	private static final String SALT = "fdalkjalk;3jlwf00sfaof";
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
-    }
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
+	}
+
+	@Bean
+	public WebResponseExceptionTranslator webResponseExceptionTranslator() {
+		return new DefaultWebResponseExceptionTranslator() {
+
+			@Override
+			public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+				ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
+				OAuth2Exception body = responseEntity.getBody();
+				body.addAdditionalInformation("status", String.valueOf(body.getHttpErrorCode()));
+				HttpHeaders headers = new HttpHeaders();
+				headers.setAll(responseEntity.getHeaders().toSingleValueMap());
+				// do something with header or response
+				return new ResponseEntity<>(body, headers, responseEntity.getStatusCode());
+			}
+		};
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -74,6 +102,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 		configurer.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler);
 		configurer.authenticationManager(authenticationManager);
 		configurer.userDetailsService(userDetailsService);
+		configurer.exceptionTranslator(webResponseExceptionTranslator());
+		configurer.tokenEnhancer(tokenEnhancer);
 	}
 
 	/*
@@ -87,13 +117,10 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-				.withClient(CLIEN_ID)
-				.secret(CLIENT_SECRET)
+		clients.inMemory().withClient(CLIEN_ID).secret(CLIENT_SECRET)
 				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS)
-				.scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
-				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, IMPLICIT, AUTHORIZATION_CODE)
-				.resourceIds("resource");
+				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS).scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
+				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, IMPLICIT, AUTHORIZATION_CODE).resourceIds("resource");
 	}
+
 }
