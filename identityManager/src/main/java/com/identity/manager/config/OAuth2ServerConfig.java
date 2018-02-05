@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
@@ -39,7 +40,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
 	private TokenStore tokenStore;
-	
+
 	@Autowired
 	@Qualifier("customTokenEnhancer")
 	private TokenEnhancer tokenEnhancer;
@@ -122,5 +123,4 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS).scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
 				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, IMPLICIT, AUTHORIZATION_CODE).resourceIds("resource");
 	}
-
 }

@@ -44,13 +44,11 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/js/**",
             "/images/**",
             "/",
-            "/about/**",
             "/contact/**",
             "/error/**/*",
             "/console/**",
             "/api/**",
             "/oauth/token",
-            "/login"
             /*ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
             ForgotMyPasswordController.CHANGE_PASSWORD_PATH,
             SignupController.SIGNUP_URL_MAPPING*/
