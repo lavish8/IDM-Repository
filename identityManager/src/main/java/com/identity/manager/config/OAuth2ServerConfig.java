@@ -52,8 +52,10 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	private static final String CLIEN_ID = "devglan-client";
-	private static final String CLIENT_SECRET = "devglan-secret";
+	private static final String SAMPLE_CLIENT_ID = "sampleClientId";
+	private static final String SAMPLE_CLIENT_SECRET = "sampleSecret";
+	private static final String UI_CLIENT_ID = "UIsampleClientId";
+	private static final String UI_CLIENT_SECRET = "UIsampleSecret";
 	private static final String GRANT_TYPE = "password";
 	private static final String AUTHORIZATION_CODE = "authorization_code";
 	private static final String REFRESH_TOKEN = "refresh_token";
@@ -118,9 +120,20 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(CLIEN_ID).secret(CLIENT_SECRET)
-				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS).scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
-				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, IMPLICIT, AUTHORIZATION_CODE).resourceIds("resource");
+		clients.inMemory().withClient(SAMPLE_CLIENT_ID).secret(SAMPLE_CLIENT_SECRET).authorizedGrantTypes(IMPLICIT)
+				.scopes(SCOPE_READ, SCOPE_WRITE, TRUST).accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS).autoApprove(true);
+				/*.and()
+				.withClient(UI_CLIENT_ID).secret(UI_CLIENT_SECRET)
+				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, AUTHORIZATION_CODE).scopes(SCOPE_READ)
+				.resourceIds("resource");*/
+
+	}
+
+	// this method is used to avoid popup for client id and it's secret for
+	// implicit flow
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+		oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 	}
 }

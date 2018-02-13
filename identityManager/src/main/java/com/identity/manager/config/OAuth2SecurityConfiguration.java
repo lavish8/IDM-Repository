@@ -55,7 +55,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     };
     
     @Autowired
-    private UserDetailsService userSecurityService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private Environment env;
@@ -70,6 +70,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+		//auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		auth.inMemoryAuthentication()
 		.withUser("bill").password("abc123").roles("ADMIN")
 		.and().withUser("bob").password("abc123").roles("USER");
@@ -82,7 +83,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	            http.csrf().disable()
 	            	.headers().frameOptions().disable();
 	        }
-		http.anonymous().disable()
+		http//.anonymous().disable()
 		.authorizeRequests()
 		.antMatchers(PUBLIC_MATCHERS).permitAll()
 		.anyRequest().authenticated()
