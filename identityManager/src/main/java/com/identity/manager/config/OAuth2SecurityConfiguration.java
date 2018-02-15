@@ -83,7 +83,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	            http.csrf().disable()
 	            	.headers().frameOptions().disable();
 	        }
-		http//.anonymous().disable()
+		http.anonymous().disable()
 		.authorizeRequests()
 		.antMatchers(PUBLIC_MATCHERS).permitAll()
 		.anyRequest().authenticated()
@@ -91,6 +91,9 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .formLogin().loginPage("/login")
         			.defaultSuccessUrl("/payload")
         			.failureUrl("/login?error").permitAll()
+        .and()
+     	// sample anonymous customization
+     	.anonymous().authorities("ROLE_ANON")
         .and()
         .logout().permitAll();
 	}

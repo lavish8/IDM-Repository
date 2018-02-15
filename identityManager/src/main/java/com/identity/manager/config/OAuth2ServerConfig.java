@@ -120,13 +120,13 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(SAMPLE_CLIENT_ID).secret(SAMPLE_CLIENT_SECRET).authorizedGrantTypes(IMPLICIT)
-				.scopes(SCOPE_READ, SCOPE_WRITE, TRUST).accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS).autoApprove(true);
-				/*.and()
+		clients.inMemory().withClient(SAMPLE_CLIENT_ID).authorizedGrantTypes(IMPLICIT)
+				.scopes(SCOPE_READ)
+				.autoApprove(true)
+				.and()
 				.withClient(UI_CLIENT_ID).secret(UI_CLIENT_SECRET)
-				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, AUTHORIZATION_CODE).scopes(SCOPE_READ)
-				.resourceIds("resource");*/
+				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, AUTHORIZATION_CODE).scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
+				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS);
 
 	}
 
