@@ -17,6 +17,9 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.identity.manager.enums.DomainObjectEnum;
+import com.identity.manager.enums.DomainObjectEnum.LOCKED;
+
 /**
  * containing user related information
  */
@@ -236,7 +239,7 @@ public class User extends Auditable implements UserDetails {
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return getLocked().equals(LOCKED.N);
 	}
 
 
@@ -245,7 +248,7 @@ public class User extends Auditable implements UserDetails {
 	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return !getPassword().isEmpty();
 	}
 
 
@@ -254,6 +257,6 @@ public class User extends Auditable implements UserDetails {
 	 */
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return getStatus().getName().equals(DomainObjectEnum.STATUS_ACTIVE.getValue());
 	}
 }
