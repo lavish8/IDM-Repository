@@ -1,9 +1,10 @@
 package com.identity.manager.persistence.util;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 /**
  * Created by shashikant on 10/04/2017.
