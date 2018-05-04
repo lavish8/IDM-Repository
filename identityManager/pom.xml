@@ -28,6 +28,7 @@
 		<testng.version>6.11</testng.version>
 		<powermock.version>1.6.4</powermock.version>
 		<mysql.driver.version>5.1.32</mysql.driver.version>
+		<spring-couchbase.version>3.0.6.RELEASE</spring-couchbase.version>
 		<joda-time>2.3</joda-time>
 		<apache.poi>3.15</apache.poi>
 		<spring.modelmapper>1.1.0</spring.modelmapper>
@@ -77,6 +78,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.driver.version}</version>
 		</dependency>
+		
+		<!-- MySQL JDBC Connector -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-couchbase</artifactId>
+			<version>${spring-couchbase.version}</version>
+		</dependency>		
 
 		<!-- Spring Security -->
 		<dependency>
@@ -89,6 +97,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-couchbase</artifactId>
 		</dependency>
 		
 		<dependency>

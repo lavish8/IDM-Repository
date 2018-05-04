@@ -70,7 +70,7 @@ public class UserServiceTest {
 	public void createUser() throws Exception {
     	findByLogin();
 		UserPojo entity = UserUtil.createUser(username, email, companyCode);
-		UserPojo createdEntity = userDao.save(entity);
+		UserPojo createdEntity =null;// userDao.save(new User());
 		Company userCompany = companyDao.findByCode(entity.getCompany());
 		UserPojo retrievedUser = (UserPojo) userService.findByLogin(createdEntity.getLogin());
 		Assert.assertNotNull(retrievedUser);
