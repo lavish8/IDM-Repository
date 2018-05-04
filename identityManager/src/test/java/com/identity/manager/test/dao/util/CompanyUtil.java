@@ -1,9 +1,7 @@
 package com.identity.manager.test.dao.util;
 
-import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.identity.manager.enums.DomainObjectEnum;
 import com.identity.manager.persistence.domain.Company;
