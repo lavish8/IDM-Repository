@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.identity.manager.service.EmailService;
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiResponses;
  * The Class ContactController.
  */
 @RestController
+@RequestMapping(value = "/contact")
 @Api(value="contact us", description="You can share your feedback with us")
 public class ContactController {
 	
@@ -41,7 +43,7 @@ public class ContactController {
 	 * @param contact the contact
 	 * @return the string
 	 */
-	@PostMapping(value = "/contact")
+	@PostMapping
 	@ApiOperation(value = "We value your feedback", response = ResponseEntity.class)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 200, message = "Successfully mail sent"),

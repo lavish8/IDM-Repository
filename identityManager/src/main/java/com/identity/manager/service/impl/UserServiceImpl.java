@@ -22,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.identity.manager.config.ModelMapperConfig;
 import com.identity.manager.enums.ApplicationEnum;
 import com.identity.manager.enums.DomainObjectEnum;
-import com.identity.manager.exceptions.InvalidDataException;
+import com.identity.manager.exception.InvalidDataException;
 import com.identity.manager.persistence.dao.CompanyDao;
-import com.identity.manager.persistence.dao.EntitytypeDao;
+import com.identity.manager.persistence.dao.EntityTypeDao;
 import com.identity.manager.persistence.dao.RoleDao;
 import com.identity.manager.persistence.dao.StatusDao;
 import com.identity.manager.persistence.dao.UserDao;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 	private StatusDao statusDao;
 
 	@Autowired
-	private EntitytypeDao entityTypeDao;
+	private EntityTypeDao entityTypeDao;
 
 	@Autowired
 	private ModelMapperConfig modelMapper;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.identity.manager.persistence.domain.EntityType;
 
 @Repository
-public interface EntitytypeDao extends CrudRepository<EntityType, Long> {
+public interface EntityTypeDao extends CrudRepository<EntityType, Long> {
 
 	EntityType findByName(String name);
 

@@ -1,4 +1,4 @@
-package com.identity.manager.exceptions;
+package com.identity.manager.exception;
 
 import javax.validation.ConstraintViolationException;
 

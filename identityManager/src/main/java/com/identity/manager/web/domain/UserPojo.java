@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
+import io.swagger.annotations.Api;
+
+@Api
 public class UserPojo implements Serializable {
 
 	private static final long serialVersionUID = -8886147254429186809L;
@@ -19,7 +22,7 @@ public class UserPojo implements Serializable {
 	private long phoneNumber;
 	private transient LocalDate obsoleteDate;
 	private Set<String> roles;
-	private boolean isContinue = false;
+	private boolean isContinue = false; //is update 
 	
 	public String getCompany() {
 		return company;
