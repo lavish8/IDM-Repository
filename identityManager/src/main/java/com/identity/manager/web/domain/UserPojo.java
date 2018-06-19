@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 public class UserPojo implements Serializable {
 
 	private static final long serialVersionUID = -8886147254429186809L;
 
+	private long id;
 	private String company;
 	private String login;
 	private String password;
@@ -21,6 +24,12 @@ public class UserPojo implements Serializable {
 	private Set<String> roles;
 	private boolean isContinue = false;
 	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getCompany() {
 		return company;
 	}
@@ -98,13 +107,9 @@ public class UserPojo implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
-		result = prime * result + ((country == null) ? 0 : country.hashCode());
-		result = prime * result + ((department == null) ? 0 : department.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + (int) (phoneNumber ^ (phoneNumber >>> 32));
 		return result;
 	}
@@ -122,40 +127,17 @@ public class UserPojo implements Serializable {
 				return false;
 		} else if (!company.equals(other.company))
 			return false;
-		if (country == null) {
-			if (other.country != null)
-				return false;
-		} else if (!country.equals(other.country))
-			return false;
-		if (department == null) {
-			if (other.department != null)
-				return false;
-		} else if (!department.equals(other.department))
-			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
+		if (id != other.id)
 			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;
 		} else if (!login.equals(other.login))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
 			return false;
 		if (phoneNumber != other.phoneNumber)
 			return false;
@@ -164,31 +146,7 @@ public class UserPojo implements Serializable {
 	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("UserPojo [company=");
-		builder.append(company);
-		builder.append(", login=");
-		builder.append(login);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", firstName=");
-		builder.append(firstName);
-		builder.append(", lastName=");
-		builder.append(lastName);
-		builder.append(", department=");
-		builder.append(department);
-		builder.append(", country=");
-		builder.append(country);
-		builder.append(", phoneNumber=");
-		builder.append(phoneNumber);
-		builder.append(", isContinue=");
-		builder.append(isContinue);
-		builder.append(", roles=");
-		builder.append(roles);
-		builder.append("]");
-		return builder.toString();
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 }

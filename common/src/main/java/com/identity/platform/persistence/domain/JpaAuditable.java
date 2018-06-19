@@ -1,5 +1,6 @@
-package com.identity.manager.persistence.domain;
+package com.identity.platform.persistence.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
 @MappedSuperclass
-public abstract class Auditable extends AbstractAuditLog {
+public abstract class JpaAuditable<T, PK extends Serializable> extends AbstractJpaAuditLog<T, PK> {
 
 	private static final long serialVersionUID = 1L;
 

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.identity.manager.service.EmailService;
 import com.identity.manager.web.domain.ContactPojo;
+import com.identity.platform.service.EmailService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ public class ContactController {
 	
 	/** The email service. */
 	@Autowired
-	private EmailService emailService;
+	private EmailService<ContactPojo> emailService;
 
 	/**
 	 * Contact post.

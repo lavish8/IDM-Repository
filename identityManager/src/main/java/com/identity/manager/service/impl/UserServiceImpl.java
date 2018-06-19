@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import com.identity.manager.persistence.domain.User;
 import com.identity.manager.persistence.domain.UserRole;
 import com.identity.manager.service.UserService;
 import com.identity.manager.web.domain.UserPojo;
+import com.identity.platform.utils.error.exception.PlatformExceptionTranslatorUtil;
 
 @Service
 @Transactional(readOnly = true)
@@ -75,7 +77,8 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 		if (localUser != null && !entity.isContinue()) {
 			log.info("User with username {} and email {} already exist. Nothing will be done. ", entity.getLogin(),
 					entity.getEmail());
-			throw new InvalidDataException("User with username [" + entity.getLogin() + "] and email ["+entity.getEmail()+ "] already exist. ");
+			throw new InvalidDataException("User with username [" + entity.getLogin() + "] and email ["
+					+ entity.getEmail() + "] already exist. ");
 		} else {
 			Company userCompany = companyDao.findByCode(entity.getCompany());
 			if (userCompany == null) {
@@ -85,16 +88,18 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 			entity.setPassword(encryptedPassword);
 
 			User user = modelMapper.map(entity, User.class);
-			
+
 			user.setUniqueIdentifierValue(user.getLogin());
 			user.setUniqueIdentifierKey(DomainObjectEnum.UNIQUE_IDENTIFIER_KEY);
-			user.setUserRepository(userRepositoryDao.findByName(DomainObjectEnum.USER_EDIRECTORY_REPOSITORY.getValue()));
+			user.setUserRepository(
+					userRepositoryDao.findByName(DomainObjectEnum.USER_EDIRECTORY_REPOSITORY.getValue()));
 			user.setCompany(userCompany);
-			user.setCreatedBy(userDao.findByLogin("VIVEKC"));
+			user.setCreatedBy(userDao.findByLogin("VIVEKC")); // SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()
 			user.setLastModifiedBy(userDao.findByLogin("VIVEKC"));
 			user.setStatus(statusDao.findByName(DomainObjectEnum.STATUS_ACTIVE.getValue()));
 
-			String roleName = entity.isContinue() ? entity.getRoles().iterator().next() : ApplicationEnum.READ_ROLE.getValue();
+			String roleName = entity.isContinue() ? entity.getRoles().iterator().next()
+					: ApplicationEnum.READ_ROLE.getValue();
 			Role role = roleDao.findByName(roleName);
 			UserRole userRole = new UserRole();
 			userRole.setRole(role);
@@ -122,12 +127,6 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 	public Iterable<UserPojo> findAll(Iterable<UserPojo> ids) {
 
 		return null;
-	}
-
-	@Override
-	public UserPojo find(Serializable id) {
-		User user = userDao.findOne((Long) id);
-		return modelMapper.map(user, UserPojo.class);
 	}
 
 	@Override
@@ -177,19 +176,23 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 		userDao.updateUserPassword(user.getId(), password);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.identity.manager.service.UserService#loggedInUser()
 	 */
 	@Override
 	public String loggedInUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
-			throw new UsernameNotFoundException("Anonymous user found"); 
+			throw new UsernameNotFoundException("Anonymous user found");
 		}
 		return authentication.getName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.identity.manager.service.UserService#grantedRoles()
 	 */
 	@Override
@@ -197,5 +200,20 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
 		return AuthorityUtils.authorityListToSet(grantedAuthorities);
+	}
+
+	@Override
+	public UserPojo findOne(Serializable id) {
+		if (Objects.isNull(id)) {
+			PlatformExceptionTranslatorUtil.raiseNotFoundException();
+		}
+		User user = userDao.findOne((Long) id);
+		return modelMapper.map(user, UserPojo.class);
+
+	}
+
+	@Override
+	public UserPojo find(UserPojo criteria) {
+		return null;
 	}
 }

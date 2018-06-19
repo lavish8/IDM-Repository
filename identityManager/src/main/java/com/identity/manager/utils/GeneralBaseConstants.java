@@ -13,7 +13,7 @@ public class GeneralBaseConstants {
 	public static final String CONSTRAINT_VIOLATION_SYSEXC_CODE = "DSXO002";
 	public static final String SYSEXC_CODE = "SXO001";
 	public static final String NOHANDLER_FOUND_CODE = "NHX404";
-	public static final String GLOBAL_EXCEPTION_CODE = "EX001";
+	public static final String GLOBAL_EXCEPTION_CODE = "EX500";
 	public static final String BUSINESS_EXCEPTION_CODE = "BX_001";
 	public static final String SERVICE_EXCEPTION_CODE = "SX_001";	
 	

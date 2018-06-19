@@ -47,15 +47,15 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 	@Test
 	private void test4CreateNewRole() throws Exception {
 		Role adminRole = createRole(ApplicationEnum.ADMIN_ROLE.getValue());
-		Role retrievedRole = roleDao.findOne(adminRole.getId());
+		Role retrievedRole = roleDao.findOne((Long) adminRole.getId());
 		Assert.assertNotNull(retrievedRole);
 		
 		Role userRole = createRole(ApplicationEnum.MANAGE_USER_ROLE.getValue());
-		Role retrieveduserRole= roleDao.findOne(userRole.getId());
+		Role retrieveduserRole= roleDao.findOne((Long) userRole.getId());
 		Assert.assertNotNull(retrieveduserRole);
 		
 		Role companyRole = createRole(ApplicationEnum.MANAGE_COMPANY_ROLE.getValue());
-		Role retrievedCompanyRole = roleDao.findOne(companyRole.getId());
+		Role retrievedCompanyRole = roleDao.findOne((Long) companyRole.getId());
 		Assert.assertNotNull(retrievedCompanyRole);
 	}
 

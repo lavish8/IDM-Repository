@@ -11,9 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.identity.platform.persistence.domain.JpaAuditable;
+
 @Entity
 @Table(name = "role", catalog = "orgsec_db")
-public class Role extends Auditable {
+public class Role extends JpaAuditable<User, Long> {
 
 	private static final long serialVersionUID = 1L;
 

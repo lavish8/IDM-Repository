@@ -1,5 +1,6 @@
-package com.identity.manager.persistence.domain;
+package com.identity.platform.persistence.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -20,7 +21,7 @@ import javax.persistence.Version;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
-import com.identity.manager.enums.DomainObjectEnum.LOCKED;
+import com.identity.platform.auth.constant.DomainConstants.LOCKED;
 
 @MappedSuperclass
 @AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "ID")),
@@ -28,7 +29,7 @@ import com.identity.manager.enums.DomainObjectEnum.LOCKED;
 	@AttributeOverride(name = "lastModifiedDate", column = @Column(name = "MODIFICATION_DATE", insertable=false, updatable=false  /*source should be db*/ 	)) })
 @AssociationOverrides({ @AssociationOverride(name = "createdBy", joinColumns = @JoinColumn(name = "CREATED_BY", updatable = false)),
 	@AssociationOverride(name = "lastModifiedBy", joinColumns = @JoinColumn(name = "MODIFIED_BY")) })
-public abstract class AbstractAuditLog extends AbstractAuditable<User, Long> {
+public abstract class AbstractJpaAuditLog<T, PK extends Serializable> extends AbstractAuditable<T, PK> {
 
 	private static final long serialVersionUID = 3822718026990095365L;
 

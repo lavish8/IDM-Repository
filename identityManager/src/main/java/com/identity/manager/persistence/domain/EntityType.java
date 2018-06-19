@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.identity.platform.persistence.domain.JpaAuditable;
+
 @Entity
 @Table(name = "entity_type", catalog = "orgsec_db")
-public class EntityType extends Auditable {
+public class EntityType extends JpaAuditable<User, Long> {
 
 	private static final long serialVersionUID = 1L;
 	

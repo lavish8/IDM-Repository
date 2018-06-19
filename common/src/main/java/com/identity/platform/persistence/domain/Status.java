@@ -1,4 +1,4 @@
-package com.identity.manager.persistence.domain;
+package com.identity.platform.persistence.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "status", catalog = "orgsec_db", uniqueConstraints = @UniqueConstraint(columnNames = { "NAME", "CODE" }))
-public class Status extends AbstractAuditLog {
+public class Status extends AbstractJpaAuditLog<BasicJpaUser, Long> {
 
 	private static final long serialVersionUID = 1L;
 
