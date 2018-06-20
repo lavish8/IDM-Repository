@@ -23,9 +23,9 @@ import com.identity.platform.service.MockEmailServiceImpl;
 @Configuration
 @ComponentScan("com.identity")
 @Import(value= {CouchbaseConfiguration.class})
-@EnableJpaRepositories(basePackages = { "com.identity.platform.persistence" })
+@EnableJpaRepositories(basePackages = { "com.identity.platform.persistence", "com.identity.manager.persistence" })
 @EnableCouchbaseRepositories(basePackages = { "com.identity.platform.persistence" })
-@EntityScan(basePackages = { "com.identity.platform.persistence" })
+@EntityScan(basePackages = { "com.identity.platform.persistence", "com.identity.manager.persistence" })
 @EnableTransactionManagement
 public class ApplicationConfig {
 
