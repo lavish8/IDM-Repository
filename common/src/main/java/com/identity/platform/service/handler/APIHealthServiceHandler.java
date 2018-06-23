@@ -1,6 +1,8 @@
 package com.identity.platform.service.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = APIHealthServiceHandler.HEALTH, produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Health")
-public class APIHealthServiceHandler extends AbstractServiceHandler {
+public class APIHealthServiceHandler extends AbstractServiceHandler implements HealthIndicator {
 
 	protected static final String HEALTH = "/health";
 
@@ -35,5 +37,10 @@ public class APIHealthServiceHandler extends AbstractServiceHandler {
     public final AbstractResponse createHealthStats() throws PlatformException {
         return handleResponse(this.healthService.health());
     }
+
+	@Override
+	public Health health() {
+		return this.healthService.health();
+	}
 
 }

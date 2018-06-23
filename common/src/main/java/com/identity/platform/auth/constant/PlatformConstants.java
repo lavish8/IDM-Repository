@@ -22,7 +22,7 @@ public class PlatformConstants {
 	/**
      * The Enum Health.
      */
-    public enum Health {
+    public enum HealthEnum {
 
         /** The db healthy. */
         DB_HEALTHY("db_healthy"),
@@ -38,7 +38,7 @@ public class PlatformConstants {
          * @param value
          *            the value
          */
-        Health(String value) {
+        HealthEnum(String value) {
             this.value = value;
         }
 
