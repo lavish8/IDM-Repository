@@ -144,9 +144,7 @@
 					</check>
 					<instrumentation>
 						<excludes>
-							<exclude>com/pearson/platform/democms/CMSServiceApp.class</exclude>
-							<exclude>com/pearson/platform/cms/content/expression/evaluator/Tdx/TdxCustomExpressionEvaluator.class</exclude>
-							<exclude>com/pearson/platform/cms/content/functionImpl/**</exclude>
+							<exclude>com/indentity/platform//**</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>

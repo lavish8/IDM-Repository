@@ -222,8 +222,8 @@
 					</check>
 					<instrumentation>
 						<excludes>
-							<!-- <exclude>com/pearson/platform/democms/CMSServiceApp.class</exclude>
-							<exclude>com/pearson/platform/cms/content/functionImpl/**</exclude> -->
+							<!-- <exclude>com/indentity/platform/democms/CMSServiceApp.class</exclude>
+							<exclude>com/indentity/platform/cms/content/functionImpl/**</exclude> -->
 						</excludes>
 					</instrumentation>
 					<formats>

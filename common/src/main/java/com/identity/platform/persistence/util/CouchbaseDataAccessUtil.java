@@ -55,7 +55,6 @@ public class CouchbaseDataAccessUtil implements CommonDataAccess {
 	 * @return true, if successful
 	 * @throws PlatformException
 	 *             the platform exception
-	 * @see com.pearson.platform.common.dataaccess.DataAccessAPI#ping()
 	 */
 	@Override
 	public final boolean ping() throws PlatformException {
