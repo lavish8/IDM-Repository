@@ -11,7 +11,7 @@
  
  */
  
-package com.identity.manager.exceptions;
+package com.identity.manager.exception;
 
 /**
  * @author maheshs1

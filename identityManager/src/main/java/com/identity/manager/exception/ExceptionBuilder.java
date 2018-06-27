@@ -3,14 +3,14 @@
  * Description: This is exception builder class that will instantiate the custom exception class and return the same.
  *
  */
-package com.identity.manager.exceptions;
+package com.identity.manager.exception;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.identity.manager.exceptions.BaseException.Severity;
+import com.identity.manager.exception.BaseException.Severity;
 
 /**
  * @author iss

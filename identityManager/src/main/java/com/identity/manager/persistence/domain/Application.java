@@ -1,46 +1,37 @@
+/**
+ * 
+ */
 package com.identity.manager.persistence.domain;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * @author maheshs1
+ *
+ */
+
 @Entity
-@Table(name = "role", catalog = "orgsec_db")
-public class Role extends Auditable {
+@Table(name = "application", catalog = "orgsec_db")
+public class Application extends Auditable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TYPE__ID", nullable = false)
 	private EntityType entityType;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "COMPANY__ID", nullable = false)
-	private Company company;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "APPLICATION__ID", nullable = false)
-	private Application application;
-
 	@Column(name = "NAME", nullable = false, length = 50)
 	private String name;
 
 	@Column(name = "DESCRIPTION", length = 250)
 	private String description;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<UserRole> userRoles = new HashSet<UserRole>();
-
-	public Role() {
-
-	}
+	
+	public Application(){}
 
 	public EntityType getEntityType() {
 		return entityType;
@@ -48,14 +39,6 @@ public class Role extends Auditable {
 
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
-	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
 	}
 
 	public String getName() {
@@ -73,21 +56,7 @@ public class Role extends Auditable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Set<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
-	public Application getApplication() {
-		return application;
-	}
-
-	public void setApplication(Application application) {
-		this.application = application;
-	}
-
+	
+	
+	
 }
