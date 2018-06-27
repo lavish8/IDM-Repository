@@ -52,6 +52,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/swagger-resources",
             "/swagger-resources/**",
             "/swagger-ui.html/**",
+            "/v2/api-docs/**",
             "/health",
             "/actuator/**",
             /*ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
@@ -78,7 +79,8 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		auth.inMemoryAuthentication()
 		.withUser("bill").password("abc123").roles("ADMIN")
-		.and().withUser("bob").password("abc123").roles("USER");
+		.and().withUser("bob").password("abc123").roles("USER")
+		.and().withUser("admin").password("secret").roles("SUPERUSER");
 	}
 
 	@Override

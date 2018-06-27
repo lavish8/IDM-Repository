@@ -6,31 +6,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import com.identity.platform.utils.error.PlatformError;
 
-public class AbstractResponse implements Serializable {
-	
-	private static final long serialVersionUID = 3067539911118414095L;
+public class AbstractResponse extends ResponseEntity<Object> implements Serializable{
+
+	private static final long serialVersionUID = -6608769068369406029L;
+
 	private static final String BASE_URI = "baseUri";
-	
-	private int status;
+
+	private HttpStatus status;
 	private List<PlatformError> errors = new ArrayList<>(0);
 	private Map<String, Object> metadata = new HashMap<>();
 
-	public AbstractResponse(int status, List<PlatformError> errors) {
+	public AbstractResponse(HttpStatus status, List<PlatformError> errors) {
+		super(status);
 		this.setStatus(status);
 		this.setErrors(errors);
 	}
 
-	public AbstractResponse(int status, List<PlatformError> errors, Map<String, Object> metadata, String baseUri) {
+	public AbstractResponse(HttpStatus status, List<PlatformError> errors, Map<String, Object> metadata,
+			String baseUri) {
+		super(status);
 		this.status = status;
 		this.setErrors(errors);
 		this.metadata = metadata;
 		this.metadata.put(BASE_URI, baseUri);
-	}
-
-	public AbstractResponse() {
-		
 	}
 
 	public List<PlatformError> getErrors() {
@@ -46,11 +49,11 @@ public class AbstractResponse implements Serializable {
 		}
 	}
 
-	public int getStatus() {
+	public HttpStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
 

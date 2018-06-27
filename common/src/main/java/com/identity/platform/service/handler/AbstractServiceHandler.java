@@ -53,14 +53,14 @@ public abstract class AbstractServiceHandler implements ServiceHandler {
 	}
 
 	public AbstractResponse handleResponse(final Object payload) {
-		return new ClientResponse(HttpStatus.OK.value(), null, payload);
+		return new ClientResponse(HttpStatus.OK, null, payload);
 	}
 
-	public AbstractResponse handleResponse(Object payload, int status) {
+	public AbstractResponse handleResponse(Object payload, HttpStatus status) {
 		return new ClientResponse(status, null, payload);
 	}
 
-	public AbstractResponse handleResponseWithError(Object payload, List<PlatformError> errors, int status) {
+	public AbstractResponse handleResponseWithError(Object payload, List<PlatformError> errors, HttpStatus status) {
 		return new ClientResponse(status, errors, payload);
 	}
 

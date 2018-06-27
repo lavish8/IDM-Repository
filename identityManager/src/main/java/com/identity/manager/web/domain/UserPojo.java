@@ -6,6 +6,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel
 public class UserPojo implements Serializable {
 
 	private static final long serialVersionUID = -8886147254429186809L;
