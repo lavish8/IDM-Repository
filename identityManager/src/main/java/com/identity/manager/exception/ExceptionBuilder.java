@@ -1,6 +1,7 @@
 /*
  * Author: maheshs1
- * Description: This is exception builder class that will instantiate the custom exception class and return the same.
+ * Description: This is exception builder class that will instantiate 
+ * the custom exception class and return the same.
  *
  */
 package com.identity.manager.exception;
@@ -12,11 +13,6 @@ import java.util.List;
 
 import com.identity.manager.exception.BaseException.Severity;
 
-/**
- * @author iss
- * @generated 
- *            "UML to Java V5.0 (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
- */
 public class ExceptionBuilder {
 
 	private Class<? extends BaseException> exceptionClass;
@@ -33,17 +29,15 @@ public class ExceptionBuilder {
 	private ExceptionBuilder() {
 	}
 
-	public static ExceptionBuilder getInstance(
-			Class<? extends BaseException> exceptionClass) {
+	public static ExceptionBuilder getInstance(Class<? extends BaseException> exceptionClass) {
 		ExceptionBuilder exceptionBuilder = new ExceptionBuilder();
 		exceptionBuilder.setExceptionClass(exceptionClass);
 		return exceptionBuilder;
 
 	}
 
-	public static ExceptionBuilder getInstance(
-			Class<? extends BaseException> exceptionClass,
-			String exceptionCode, String logMessage) {
+	public static ExceptionBuilder getInstance(Class<? extends BaseException> exceptionClass, String exceptionCode,
+			String logMessage) {
 
 		ExceptionBuilder exceptionBuilder = new ExceptionBuilder();
 		exceptionBuilder.setExceptionClass(exceptionClass);
@@ -52,28 +46,21 @@ public class ExceptionBuilder {
 		return exceptionBuilder;
 	}
 
-	public Boolean initializeException(
-			Class<? extends BaseException> exceptionClass) {
+	public Boolean initializeException(Class<? extends BaseException> exceptionClass) {
 		try {
 
 			if (originaleException != null && logMessage != null) {
-				Constructor constructor = Class.forName(
-						exceptionClass.getName()).getConstructor(String.class,
+				Constructor constructor = Class.forName(exceptionClass.getName()).getConstructor(String.class,
 						Throwable.class);
-				exception = (BaseException) constructor.newInstance(logMessage,
-						originaleException);
+				exception = (BaseException) constructor.newInstance(logMessage, originaleException);
 			} else if (originaleException == null && logMessage != null) {
-				Constructor constructor = Class.forName(
-						exceptionClass.getName()).getConstructor(String.class);
+				Constructor constructor = Class.forName(exceptionClass.getName()).getConstructor(String.class);
 				exception = (BaseException) constructor.newInstance(logMessage);
 			}
 
 			else if (originaleException != null) {
-				Constructor constructor = Class.forName(
-						exceptionClass.getName()).getConstructor(
-						Throwable.class);
-				exception = (BaseException) constructor
-						.newInstance(originaleException);
+				Constructor constructor = Class.forName(exceptionClass.getName()).getConstructor(Throwable.class);
+				exception = (BaseException) constructor.newInstance(originaleException);
 			} else {
 				exception = exceptionClass.newInstance();
 			}
@@ -125,7 +112,6 @@ public class ExceptionBuilder {
 		return this;
 	}
 
-
 	public ExceptionBuilder setExceptionCode(String exceptionCode) {
 		this.exceptionCode = exceptionCode;
 		return this;
@@ -141,14 +127,12 @@ public class ExceptionBuilder {
 		return this;
 	}
 
-	public ExceptionBuilder setMessage(String i18nCode,
-			String[] messageArguments) {
+	public ExceptionBuilder setMessage(String i18nCode, String[] messageArguments) {
 		this.addMessage(i18nCode, messageArguments);
 		return this;
 	}
 
-	public ExceptionBuilder setExceptionClass(
-			Class<? extends BaseException> exceptionClass) {
+	public ExceptionBuilder setExceptionClass(Class<? extends BaseException> exceptionClass) {
 		this.exceptionClass = exceptionClass;
 		return this;
 	}

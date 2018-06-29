@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -25,15 +26,9 @@
 		<bootstrap.version>3.3.6</bootstrap.version>
 		<jquery.version>2.1.4</jquery.version>
 		<thymeleaf.springsecurity>2.1.2.RELEASE</thymeleaf.springsecurity>
-		<testng.version>6.11</testng.version>
 		<powermock.version>1.6.4</powermock.version>
-		<mysql.driver.version>5.1.32</mysql.driver.version>
-		<spring-couchbase.version>3.0.6.RELEASE</spring-couchbase.version>
-		<joda-time>2.3</joda-time>
 		<apache.poi>3.15</apache.poi>
-		<spring.modelmapper>1.1.0</spring.modelmapper>
-		<springfox-swagger>2.6.1</springfox-swagger>
-		<h2.database>1.4.194</h2.database>
+		<common.version>0.0.1-SNAPSHOT</common.version>
 	</properties>
 
 	<dependencies>
@@ -49,42 +44,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-		</dependency>
-
-		<!-- Hibernate dependencies -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-java8</artifactId>
-		</dependency>
-
-		<!-- MySQL JDBC Connector -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.driver.version}</version>
-		</dependency>
-		
-		<!-- MySQL JDBC Connector -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-couchbase</artifactId>
-			<version>${spring-couchbase.version}</version>
-		</dependency>		
 
 		<!-- Spring Security -->
 		<dependency>
@@ -100,29 +59,16 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-couchbase</artifactId>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.powermock</groupId>
-		    <artifactId>powermock-module-junit4</artifactId>
-		     <version>${powermock.version}</version>
-		    <scope>test</scope>
-		</dependency>
- 
-		<dependency>
-		    <groupId>org.powermock</groupId>
-		    <artifactId>powermock-api-mockito</artifactId>
-		    <version>${powermock.version}</version>
-		    <scope>test</scope>
-		</dependency>
-		
-		<!-- TestNG dependency -->
-	   	<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -140,33 +86,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>${joda-time}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>${apache.poi}</version>
-		</dependency>
-
-		<!-- Logging Dependencies -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-    
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${h2.database}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.modelmapper.extensions</groupId>
-			<artifactId>modelmapper-spring</artifactId>
-			<version>${spring.modelmapper}</version>
 		</dependency>
 
 		<dependency>
@@ -174,18 +96,13 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox-swagger}</version>
+			<groupId>com.access.manager</groupId>
+			<artifactId>common</artifactId>
+			<version>${common.version}</version>
 		</dependency>
-    
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox-swagger}</version>
-		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -196,6 +113,55 @@
 				<configuration>
 					<addResources>true</addResources>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.cobertura</groupId>
+						<artifactId>cobertura</artifactId>
+						<version>2.1.1</version>
+					</dependency>
+					<dependency>
+						<groupId>net.sourceforge.cobertura</groupId>
+						<artifactId>cobertura-runtime</artifactId>
+						<version>2.1.1</version>
+						<type>pom</type>
+					</dependency>
+					<dependency>
+						<groupId>org.ow2.asm</groupId>
+						<artifactId>asm</artifactId>
+						<version>5.0.3</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<check>
+						<haltOnFailure>false</haltOnFailure> <!-- TODO -->
+						<totalLineRate>80</totalLineRate>
+						<totalBranchRate>80</totalBranchRate>
+					</check>
+					<instrumentation>
+						<excludes>
+							<exclude>com/indentity/platform//**</exclude>
+						</excludes>
+					</instrumentation>
+					<formats>
+						<format>xml</format>
+						<format>html</format>
+					</formats>
+					<outputDirectory>${project.build.directory}/cobertura</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>clean</goal>
+							<goal>cobertura</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

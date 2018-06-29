@@ -49,7 +49,13 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/console/**",
             "/api/**",
             "/oauth/token",
-            "swagger-ui.html",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/swagger.json",
+            "/v2/api-docs/**",
+            "/health",
+            "/actuator/**",
             /*ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
             ForgotMyPasswordController.CHANGE_PASSWORD_PATH,
             SignupController.SIGNUP_URL_MAPPING*/
@@ -74,7 +80,8 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 		auth.inMemoryAuthentication()
 		.withUser("bill").password("abc123").roles("ADMIN")
-		.and().withUser("bob").password("abc123").roles("USER");
+		.and().withUser("bob").password("abc123").roles("USER")
+		.and().withUser("admin").password("secret").roles("SUPERUSER");
 	}
 
 	@Override

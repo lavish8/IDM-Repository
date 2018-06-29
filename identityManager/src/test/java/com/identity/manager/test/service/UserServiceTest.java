@@ -12,9 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.identity.manager.config.ModelMapperConfig;
 import com.identity.manager.enums.DomainObjectEnum.COMPANY_TYPE;
-import com.identity.manager.exceptions.InvalidDataException;
+import com.identity.manager.exception.InvalidDataException;
 import com.identity.manager.persistence.dao.CompanyDao;
-import com.identity.manager.persistence.dao.EntitytypeDao;
+import com.identity.manager.persistence.dao.EntityTypeDao;
 import com.identity.manager.persistence.dao.RoleDao;
 import com.identity.manager.persistence.dao.StatusDao;
 import com.identity.manager.persistence.dao.UserDao;
@@ -47,7 +47,7 @@ public class UserServiceTest {
 	private StatusDao statusDao;
 
     @Mock
-	private EntitytypeDao entityTypeDao;
+	private EntityTypeDao entityTypeDao;
 
     @Mock
 	private ModelMapperConfig modelMapper;

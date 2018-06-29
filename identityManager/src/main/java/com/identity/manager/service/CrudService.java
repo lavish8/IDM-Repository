@@ -45,7 +45,9 @@ public interface CrudService<T, ID extends Serializable> extends Service<T, ID> 
 	 * @return the entity with the given id or {@literal null} if none found
 	 * @throws IllegalArgumentException if {@code id} is {@literal null}
 	 */
-	T find(ID id);
+	T findOne(ID id);
+	
+	T find(T criteria);
 
 	/**
 	 * Deletes the entity with the given id.

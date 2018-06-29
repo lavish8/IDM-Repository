@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.identity.platform.persistence.domain.JpaAuditable;
+
 /**
  * @author maheshs1
  *
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "application", catalog = "orgsec_db")
-public class Application extends Auditable {
+public class Application extends JpaAuditable<User, Long> {
 
 	private static final long serialVersionUID = 1L;
 	

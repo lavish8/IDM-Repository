@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.identity.manager.web.i18n.I18NService;
+import com.identity.platform.utils.I18NUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,7 +19,7 @@ public class IdentityManagerApplicationTests {
 	private static final Logger LOG = LoggerFactory.getLogger(IdentityManagerApplicationTests.class);
 	
 	@Autowired
-	private I18NService i18NService;
+	private I18NUtils i18NService;
 	
 	@Test
 	public void contextLoads() {

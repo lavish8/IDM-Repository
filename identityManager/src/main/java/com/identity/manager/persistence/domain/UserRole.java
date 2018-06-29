@@ -8,10 +8,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.identity.platform.persistence.domain.JpaAuditable;
+
 @Entity
 @Table(name = "user_x_role", catalog = "orgsec_db", uniqueConstraints = @UniqueConstraint(columnNames = { "ROLE__ID",
 		"USER__ID" }))
-public class UserRole extends Auditable {
+public class UserRole extends JpaAuditable<User, Long> {
 
 	private static final long serialVersionUID = 1L;
 	

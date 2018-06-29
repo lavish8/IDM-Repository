@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.identity.platform.persistence.domain.JpaAuditable;
+
 @Entity
 @Table(name = "user_repository", catalog = "orgsec_db", uniqueConstraints = @UniqueConstraint(columnNames = "NAME"))
-public class UserRepository extends Auditable {
+public class UserRepository extends JpaAuditable<User, Long> {
 
 	private static final long serialVersionUID = 1L;
 	

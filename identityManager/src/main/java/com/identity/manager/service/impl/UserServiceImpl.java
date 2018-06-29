@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 	}
 
 	@Override
-	public UserPojo find(Serializable id) {
+	public UserPojo findOne(Serializable id) {
 		User user = userDao.findOne((Long) id);
 		return modelMapper.map(user, UserPojo.class);
 	}
@@ -197,5 +197,11 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
 		return AuthorityUtils.authorityListToSet(grantedAuthorities);
+	}
+
+	@Override
+	public UserPojo find(UserPojo criteria) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

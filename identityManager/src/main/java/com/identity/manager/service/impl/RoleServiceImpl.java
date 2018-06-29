@@ -95,14 +95,6 @@ public class RoleServiceImpl implements RoleService<RolePojo, Long> {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.identity.manager.service.CrudService#find(java.io.Serializable)
-	 */
-	@Override
-	public RolePojo find(Serializable id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see com.identity.manager.service.CrudService#delete(java.io.Serializable)
@@ -145,6 +137,18 @@ public class RoleServiceImpl implements RoleService<RolePojo, Long> {
 	 */
 	@Override
 	public RolePojo findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RolePojo findOne(Serializable id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RolePojo find(RolePojo criteria) {
 		// TODO Auto-generated method stub
 		return null;
 	}
