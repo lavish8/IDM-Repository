@@ -22,6 +22,14 @@ public class Role extends JpaAuditable<User, Long> {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TYPE__ID", nullable = false)
 	private EntityType entityType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COMPANY__ID", nullable = false)
+	private Company company;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "APPLICATION__ID", nullable = false)
+	private Application application;
 
 	@Column(name = "NAME", nullable = false, length = 50)
 	private String name;
@@ -42,6 +50,14 @@ public class Role extends JpaAuditable<User, Long> {
 
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public String getName() {
@@ -66,6 +82,14 @@ public class Role extends JpaAuditable<User, Long> {
 
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
 }

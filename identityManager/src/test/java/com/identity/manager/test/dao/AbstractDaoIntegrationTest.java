@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.identity.manager.enums.DomainObjectEnum;
 import com.identity.manager.persistence.dao.CompanyDao;
-import com.identity.manager.persistence.dao.EntitytypeDao;
+import com.identity.manager.persistence.dao.EntityTypeDao;
 import com.identity.manager.persistence.dao.RoleDao;
 import com.identity.manager.persistence.dao.StatusDao;
 import com.identity.manager.persistence.dao.UserDao;
@@ -41,7 +41,7 @@ public abstract class AbstractDaoIntegrationTest {
 	protected StatusDao statusDao;
 
 	@Autowired
-	protected EntitytypeDao entityTypeDao;
+	protected EntityTypeDao entityTypeDao;
 
 	protected Role createRole(String roleName) {
 		Role role = new Role();

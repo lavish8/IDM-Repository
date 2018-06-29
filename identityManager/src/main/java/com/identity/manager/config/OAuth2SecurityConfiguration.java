@@ -53,7 +53,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/swagger.json",
-         // "/v2/api-docs/**", return json for swagger
+            "/v2/api-docs/**",
             "/health",
             "/actuator/**",
             /*ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING,
