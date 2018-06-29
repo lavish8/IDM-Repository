@@ -7,6 +7,7 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel
 public class UserPojo implements Serializable {
@@ -17,7 +18,10 @@ public class UserPojo implements Serializable {
 	private String company;
 	private String login;
 	private String password;
+	
+	@ApiModelProperty
 	private String email;
+	
 	private String firstName;
 	private String lastName;
 	private String department;
