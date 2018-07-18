@@ -13,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -73,10 +74,10 @@ public class UserController extends AbstractServiceHandler {
 		return handleResponse(userService.find(user));
 	}
 
-	@GetMapping(value="id")
+	@GetMapping(value="/{id}")
 	@ApiOperation(value = "search user by user ID", response = AbstractResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = UserConstants.USER_SEARCH_BY_ID) })
-	public AbstractResponse fetchById(@PathParam(value = "id") String id, @RequestHeader HttpHeaders httpHeaders) {
+	public AbstractResponse fetchById(@PathVariable() String id, @RequestHeader HttpHeaders httpHeaders) {
 		LOG.debug("user id {} #############", id);
 		HeaderdataManager.setHeader(httpHeaders.toSingleValueMap());
 		return handleResponse(userService.findOne(id));

@@ -7,10 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableResourceServer
+@EnableAsync
 @DependsOn("beanUtil")
 @ComponentScan(basePackages= {"com.identity.platform", "com.identity.manager"})
 @EnableCouchbaseRepositories(basePackages = "com.identity.manager.persistence")

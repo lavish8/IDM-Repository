@@ -4,8 +4,13 @@ import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,8 +25,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 /**
  * The Class OAuth2Config is responsible for generating tokens specific to a
@@ -32,14 +41,15 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
+public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+	
+	@Value("${security.oauth2.resource.id}")
+	private String resourceId;
 
 	/** The user details service. */
 	@Autowired
+	@Qualifier("userDetailsServiceImpl")
 	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private TokenStore tokenStore;
 
 	@Autowired
 	@Qualifier("customTokenEnhancer")
@@ -56,18 +66,48 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	private static final String SAMPLE_CLIENT_SECRET = "sampleSecret";
 	private static final String UI_CLIENT_ID = "UIsampleClientId";
 	private static final String UI_CLIENT_SECRET = "UIsampleSecret";
-	private static final String GRANT_TYPE = "password";
-	private static final String AUTHORIZATION_CODE = "authorization_code";
+	private static final String PASSWORD = "password";
+	private static final String AUTHORIZATION_CODE = "authorization_code"; //client will redirect the user to the authorization server like facebook google
 	private static final String REFRESH_TOKEN = "refresh_token";
-	private static final String IMPLICIT = "implicit";
+	private static final String CLIENT_CREDENTIALS = "client_credentials";
+	private static final String IMPLICIT = "implicit"; // used for single page web apps that can’t keep a client secret
+														// and authorization server returns an access token instead of refresh token
+														// the authorization server returning an authorization code 
 	private static final String SCOPE_READ = "read";
 	private static final String SCOPE_WRITE = "write";
 	private static final String TRUST = "trust";
 	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
-	private static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
+	private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
 
 	/** The encryption SALT. */
 	private static final String SALT = "fdalkjalk;3jlwf00sfaof";
+	
+	@Bean
+	public TokenStore tokenStore() {
+		return new JwtTokenStore(accessTokenConverter());
+
+	}
+
+	@Bean
+	public JwtAccessTokenConverter accessTokenConverter() {
+		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mykeys.jks"),
+				"mypass".toCharArray());
+		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mykeys"));
+		return converter;
+	}
+
+	@Bean()
+	@Scope(proxyMode=ScopedProxyMode.TARGET_CLASS, value="singleton")
+	@Primary
+	public DefaultTokenServices tokenServices() {
+		DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+		defaultTokenServices.setTokenStore(tokenStore());
+		defaultTokenServices.setSupportRefreshToken(true);
+		defaultTokenServices.setTokenEnhancer(accessTokenConverter());
+		return defaultTokenServices;
+
+	}
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -101,12 +141,14 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	 * AuthorizationServerEndpointsConfigurer)
 	 */
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer configurer) throws Exception {
-		configurer.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler);
-		configurer.authenticationManager(authenticationManager);
-		configurer.userDetailsService(userDetailsService);
-		configurer.exceptionTranslator(webResponseExceptionTranslator());
-		configurer.tokenEnhancer(tokenEnhancer);
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		endpoints.authenticationManager(this.authenticationManager)
+				 //.userDetailsService(userDetailsService)
+				 //.exceptionTranslator(webResponseExceptionTranslator());
+				.tokenServices(tokenServices())
+				.tokenStore(tokenStore())//.userApprovalHandler(userApprovalHandler)
+				//.tokenEnhancer(tokenEnhancer)
+				.accessTokenConverter(accessTokenConverter());
 	}
 
 	/*
@@ -120,13 +162,24 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(SAMPLE_CLIENT_ID).authorizedGrantTypes(IMPLICIT)
+		/*clients.inMemory().withClient(SAMPLE_CLIENT_ID).authorizedGrantTypes(IMPLICIT)
 				.scopes(SCOPE_READ)
 				.autoApprove(true)
 				.and()
 				.withClient(UI_CLIENT_ID).secret(UI_CLIENT_SECRET)
 				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, AUTHORIZATION_CODE).scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
-				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS);
+				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS);*/
+		
+		clients.inMemory()
+			.withClient(UI_CLIENT_ID).authorizedGrantTypes(CLIENT_CREDENTIALS, PASSWORD, REFRESH_TOKEN, AUTHORIZATION_CODE)
+										.authorities("ROLE_TRUSTED_CLIENT").scopes(SCOPE_READ, SCOPE_WRITE).resourceIds(resourceId)
+										.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+										.refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS).secret(UI_CLIENT_SECRET)
+		.and()
+			.withClient(SAMPLE_CLIENT_ID).authorizedGrantTypes(CLIENT_CREDENTIALS)
+										.authorities("ROLE_REGISTER").scopes("registerUser").resourceIds(resourceId)
+										.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+										.refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS).secret(SAMPLE_CLIENT_SECRET);
 
 	}
 
@@ -134,6 +187,12 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 	// implicit flow
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+		/*oauthServer
+		// we're allowing access to the token only for clients with
+		// 'ROLE_TRUSTED_CLIENT' authority
+		.tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+		.checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");*/
+		
 		oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
 	}
 }

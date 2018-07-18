@@ -12,8 +12,10 @@ import java.util.List;
  *
  */
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,7 +33,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity( debug = true )
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	 /** The encryption SALT. */
@@ -74,44 +77,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
 	}
-
-	@Autowired
-	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-		auth.inMemoryAuthentication()
-		.withUser("bill").password("abc123").roles("ADMIN")
-		.and().withUser("bob").password("abc123").roles("USER")
-		.and().withUser("admin").password("secret").roles("SUPERUSER");
-	}
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		 List<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-	        if (!activeProfiles.contains("prod")) {
-	            http.csrf().disable()
-	            	.headers().frameOptions().disable();
-	        }
-		http.anonymous().disable()
-		.authorizeRequests()
-		.antMatchers(PUBLIC_MATCHERS).permitAll()
-		.anyRequest().authenticated()
-        .and()
-        .formLogin().loginPage("/login")
-        			.defaultSuccessUrl("/payload")
-        			.failureUrl("/login?error").permitAll()
-        .and()
-     	// sample anonymous customization
-     	.anonymous().authorities("ROLE_ANON")
-        .and()
-        .logout().permitAll();
-	}
-
-	@Override
-	@Bean
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-
+	
 	@Bean
 	public TokenStore tokenStore() {
 		return new InMemoryTokenStore();
@@ -133,6 +99,65 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		TokenApprovalStore store = new TokenApprovalStore();
 		store.setTokenStore(tokenStore);
 		return store;
+	}
+
+	// Allows for easily building in memory authentication, LDAP authentication, JDBC based authentication
+	@Autowired
+	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+		//auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.inMemoryAuthentication()
+		.withUser("bill").password("abc123").roles("ADMIN")
+		.and().withUser("bob").password("abc123").roles("USER")
+		.and().withUser("admin").password("secret").roles("SUPERUSER");
+	}
+	
+	 // Expose the UserDetailsService as a Bean
+	 @Bean(name = "userDetailsServiceBean")
+	 @Override
+	 public UserDetailsService userDetailsServiceBean() throws Exception {
+	 	return super.userDetailsServiceBean();
+	 }
+	 
+	 @Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		/*
+		 * auth .userDetailsService(userDetailsService)
+		 * .passwordEncoder(passwordEncoder());
+		 */
+
+		auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("ADMIN")
+				.and().withUser("bob").password("abc123").roles("USER")
+				.and().withUser("admin").password("secret").roles("SUPERUSER");
+	}
+
+	    @Override
+	    @Bean
+	    public AuthenticationManager authenticationManagerBean() throws Exception {
+	        // provides the default AuthenticationManager as a Bean
+	        return super.authenticationManagerBean();
+	    }
+
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		 List<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+	        if (!activeProfiles.contains("prod")) {
+	            http.csrf().disable()
+	            	.headers().frameOptions().disable();
+	        }
+		http.anonymous().disable()
+		.authorizeRequests()
+		.antMatchers(PUBLIC_MATCHERS).permitAll()
+		.anyRequest().authenticated()
+        .and()
+        .formLogin().loginPage("/login")
+        			.defaultSuccessUrl("/payload")
+        			.failureUrl("/login?error").permitAll()
+        .and()
+     	// sample anonymous customization by default ROLE_ANONYMOUS
+     	.anonymous().authorities("ROLE_ANON")
+        .and()
+        .logout().permitAll();		
 	}
 
 }

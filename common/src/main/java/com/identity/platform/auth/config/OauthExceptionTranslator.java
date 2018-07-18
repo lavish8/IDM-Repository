@@ -1,4 +1,4 @@
-package com.identity.manager.config;
+package com.identity.platform.auth.config;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.provider.error.DefaultWebResponseExce
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.util.ObjectUtils;
 
-import com.identity.platform.auth.config.CustomOauthException;
 import com.identity.platform.auth.constant.Constants;
 import com.identity.platform.utils.I18NUtils;
 import com.identity.platform.utils.error.PlatformErrorCodes;
