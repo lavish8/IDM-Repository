@@ -108,7 +108,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 		.withUser("bill").password("abc123").roles("ADMIN")
 		.and().withUser("bob").password("abc123").roles("USER")
-		.and().withUser("admin").password("secret").roles("SUPERUSER");
+		.and().withUser("admin").password("abc123").roles("SUPERUSER");
 	}
 	
 	 // Expose the UserDetailsService as a Bean
@@ -127,7 +127,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("ADMIN")
 				.and().withUser("bob").password("abc123").roles("USER")
-				.and().withUser("admin").password("secret").roles("SUPERUSER");
+				.and().withUser("admin").password("abc123").roles("SUPERUSER");
 	}
 
 	    @Override

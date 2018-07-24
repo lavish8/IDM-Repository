@@ -30,7 +30,7 @@
 		<mysql.driver.version>5.1.32</mysql.driver.version>
 		<joda-time>2.3</joda-time>
 		<spring.modelmapper>1.1.0</spring.modelmapper>
-		<springfox-swagger>2.6.1</springfox-swagger>
+		<springfox-swagger>2.7.0</springfox-swagger>
 		<h2.database>1.4.194</h2.database>
 		<commons-lang3.version>3.2</commons-lang3.version>
 		<commons-io.version>2.6</commons-io.version>
@@ -98,6 +98,12 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-swagger}</version>
+		</dependency>	
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-bean-validators</artifactId>
 			<version>${springfox-swagger}</version>
 		</dependency>
 

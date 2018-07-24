@@ -60,16 +60,21 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 	/** The authentication manager. */
 	@Autowired
-	private AuthenticationManager authenticationManager;
-
+	private AuthenticationManager authenticationManager;	
+	
+	@Value("${security.oauth2.client.id}")
+	private String UI_CLIENT_ID;
+	
+	@Value("${security.oauth2.client.client-secret}")
+	private String UI_CLIENT_SECRET;
+	
 	private static final String SAMPLE_CLIENT_ID = "sampleClientId";
 	private static final String SAMPLE_CLIENT_SECRET = "sampleSecret";
-	private static final String UI_CLIENT_ID = "UIsampleClientId";
-	private static final String UI_CLIENT_SECRET = "UIsampleSecret";
 	private static final String PASSWORD = "password";
 	private static final String AUTHORIZATION_CODE = "authorization_code"; //client will redirect the user to the authorization server like facebook google
 	private static final String REFRESH_TOKEN = "refresh_token";
 	private static final String CLIENT_CREDENTIALS = "client_credentials";
+	
 	private static final String IMPLICIT = "implicit"; // used for single page web apps that can’t keep a client secret
 														// and authorization server returns an access token instead of refresh token
 														// the authorization server returning an authorization code 
