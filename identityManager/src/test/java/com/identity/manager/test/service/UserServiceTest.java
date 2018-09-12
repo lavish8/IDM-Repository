@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.identity.manager.config.ModelMapperConfig;
 import com.identity.manager.enums.DomainObjectEnum.COMPANY_TYPE;
@@ -53,7 +53,7 @@ public class UserServiceTest {
 	private ModelMapperConfig modelMapper;
 
     @Mock
-	private BCryptPasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
     
     protected static final String username = "test";
 	protected static final String email = username + "@devopsbuddy.com";

@@ -1,7 +1,5 @@
 package com.identity.manager.config;
 
-import java.security.SecureRandom;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -115,11 +112,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	}
 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
-	}
-
-	@Bean
 	public WebResponseExceptionTranslator webResponseExceptionTranslator() {
 		return new DefaultWebResponseExceptionTranslator() {
 
@@ -167,14 +159,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		/*clients.inMemory().withClient(SAMPLE_CLIENT_ID).authorizedGrantTypes(IMPLICIT)
-				.scopes(SCOPE_READ)
-				.autoApprove(true)
-				.and()
-				.withClient(UI_CLIENT_ID).secret(UI_CLIENT_SECRET)
-				.authorizedGrantTypes(GRANT_TYPE, REFRESH_TOKEN, AUTHORIZATION_CODE).scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
-				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS);*/
-		
 		clients.inMemory()
 			.withClient(UI_CLIENT_ID).authorizedGrantTypes(CLIENT_CREDENTIALS, PASSWORD, REFRESH_TOKEN, AUTHORIZATION_CODE)
 										.authorities("ROLE_TRUSTED_CLIENT").scopes(SCOPE_READ, SCOPE_WRITE).resourceIds(resourceId)

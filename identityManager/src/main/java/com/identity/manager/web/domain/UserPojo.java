@@ -4,7 +4,19 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+import com.identity.platform.utils.PhoneNo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,19 +27,39 @@ public class UserPojo implements Serializable {
 	private static final long serialVersionUID = -8886147254429186809L;
 
 	private long id;
-	private String company;
+	
+	@NotNull
+	private String company;	
+	
+	@NotNull
+	@Size(min = 1, max = 50)
 	private String login;
+	
 	private String password;
 	
 	@ApiModelProperty
-	private String email;
+	@NotNull
+	private String email;	
 	
-	private String firstName;
+	@NotNull(message = "{FIRST.NAME.REQUIRED_FIELD}")
+	@Size(min = 1, max = 50, message = "{user.firstName.size}")
+	private String firstName;	
+	
 	private String lastName;
+	
+	@NotNull
 	private String department;
+	
 	private String country;
+	
+	@Digits(fraction = 0, integer = 10)
+	@PositiveOrZero
+	@PhoneNo
 	private long phoneNumber;
+	
+	@FutureOrPresent
 	private transient LocalDate obsoleteDate;
+	
 	private Set<String> roles;
 	private boolean isContinue = false;
 	

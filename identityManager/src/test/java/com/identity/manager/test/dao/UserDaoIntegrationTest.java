@@ -1,5 +1,6 @@
 package com.identity.manager.test.dao;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,15 +48,15 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 	@Test
 	private void test4CreateNewRole() throws Exception {
 		Role adminRole = createRole(ApplicationEnum.ADMIN_ROLE.getValue());
-		Role retrievedRole = roleDao.findOne((Long) adminRole.getId());
+		Optional<Role> retrievedRole = roleDao.findById((Long) adminRole.getId());
 		Assert.assertNotNull(retrievedRole);
 		
 		Role userRole = createRole(ApplicationEnum.MANAGE_USER_ROLE.getValue());
-		Role retrieveduserRole= roleDao.findOne((Long) userRole.getId());
+		Optional<Role> retrieveduserRole= roleDao.findById((Long) userRole.getId());
 		Assert.assertNotNull(retrieveduserRole);
 		
 		Role companyRole = createRole(ApplicationEnum.MANAGE_COMPANY_ROLE.getValue());
-		Role retrievedCompanyRole = roleDao.findOne((Long) companyRole.getId());
+		Optional<Role> retrievedCompanyRole = roleDao.findById((Long) companyRole.getId());
 		Assert.assertNotNull(retrievedCompanyRole);
 	}
 
@@ -71,7 +72,7 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 	@Test
 	private void test1CreateNewUser() throws Exception {
 		User user = createUser(username, email, companyCode);
-		User retrievedUser = userDao.findOne(user.getId());
+		Optional<User> retrievedUser = userDao.findById(user.getId());
 		Assert.assertNotNull(retrievedUser);
 	}
 
@@ -97,16 +98,16 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 	@Test
 	private void test7DeleteUser() throws Exception {
 		User user = userDao.findByLogin(username);
-		userDao.delete(user.getId());
-		User old = userDao.findByEmail(email);
+		userDao.deleteById(user.getId());
+		Optional<User> old = userDao.findByEmail(email);
 		Assert.assertNull(old);
 	}
 
 	@Test
 	private void test3GetUserByEmail() throws Exception {
-		User newlyFoundUser = userDao.findByEmail(email);
+		Optional<User> newlyFoundUser = userDao.findByEmail(email);
 		Assert.assertNotNull(newlyFoundUser);
-		Assert.assertNotNull(newlyFoundUser.getId());
+		Assert.assertNotNull(newlyFoundUser.get().getId());
 	}
 
 	@Test
@@ -118,8 +119,8 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 		String newPassword = UUID.randomUUID().toString();
 		userDao.updateUserPassword(user.getId(), newPassword);
 
-		user = userDao.findOne(user.getId());
-		Assert.assertEquals(newPassword, user.getPassword());
+		Optional<User> newUser = userDao.findById(user.getId());
+		Assert.assertEquals(newPassword, newUser.get().getPassword());
 	}
 
 }

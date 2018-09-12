@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ import com.identity.manager.persistence.domain.User;
 import com.identity.manager.persistence.domain.UserRole;
 import com.identity.manager.service.UserService;
 import com.identity.manager.web.domain.UserPojo;
+import com.identity.platform.utils.error.exception.PlatformExceptionTranslatorUtil;
 
 @Service
 @Transactional(readOnly = true)
@@ -60,9 +62,12 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 
 	@Autowired
 	private ModelMapperConfig modelMapper;
+	
+	@Autowired
+	private PlatformExceptionTranslatorUtil exceptionTranslatorUtil;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -126,7 +131,8 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 
 	@Override
 	public UserPojo findOne(Serializable id) {
-		User user = userDao.findOne((Long) id);
+		PlatformExceptionTranslatorUtil.checkEmptyField(id);
+		Optional<User> user = userDao.findById((Long) id);
 		return modelMapper.map(user, UserPojo.class);
 	}
 
@@ -161,7 +167,7 @@ public class UserServiceImpl implements UserService<UserPojo, Long> {
 
 	@Override
 	public UserPojo findByEmail(String email) {
-		User user = userDao.findByEmail(email);
+		Optional<User> user = userDao.findByEmail(email);
 		if (user == null) {
 			throw new InvalidDataException("User not found for value of email [{}]" + email);
 		}
